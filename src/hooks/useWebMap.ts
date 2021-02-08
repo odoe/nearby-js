@@ -18,11 +18,8 @@ const useWebMap = (element: HTMLDivElement): useWebMapResponse => {
 	let cleanup: () => void;
 	const loadMap = async () => {
 		const app = await import('../data/map');
-		app.initialize(container);
-		// app.listenForLocate(setState);
-		// app.listenForPopupActions(setState);
+		await app.initialize(container);
 		cleanup = app.cleanup;
-		// app.watchExtentChange(setState);
 	};
 
 	const addItemsToMap = async () => {
@@ -41,9 +38,10 @@ const useWebMap = (element: HTMLDivElement): useWebMapResponse => {
 	};
 
 	const selectItems = async (nearbyItem: NearbyItem) => {
-		const { selectNearbyItems, queryNearbyItems } = await import('../data/map');
+		const { selectNearbyItems, queryNearbyItems, zoomTo } = await import('../data/map');
 		const features = await queryNearbyItems(nearbyItem);
 		await selectNearbyItems(features);
+		await zoomTo(features);
 	};
 
 	// load the map when the map
@@ -74,8 +72,10 @@ const useWebMap = (element: HTMLDivElement): useWebMapResponse => {
 	}, [position]);
 
 	useEffect(() => {
-		selectItems(selectedItem as NearbyItem);
-	}, [selectedItem]);
+		if (container) {
+			selectItems(selectedItem as NearbyItem);
+		}
+	}, [selectedItem, container]);
 
 	useEffect(() => {
 		// if time changes from day to night

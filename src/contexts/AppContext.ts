@@ -41,12 +41,12 @@ const validPosition = ([x, y]: number[]) => Math.abs(x) > 0 && Math.abs(y) > 0;
 
 const AppContextProvider = (props: any) => {
 	const [items, setItems] = useState<NearbyItem[]>([]);
-	const [selectedItem, setSelectedItem] = useState<Partial<NearbyItem>>({});
+	const [selectedItem, setSelectedItem] = useState<Partial<NearbyItem> | null>(null);
 	const [position, setPosition] = useState<number[]>([]);
 
 	const updateItems = (xs: any) => setItems(xs);
 
-	const [latLon, _] = useGeolocation();
+	const [latLon, locate] = useGeolocation();
 	const [nearbyItems, fetchNearbyItems] = useNearby(latLon as LatLon, defaultCategories);
 
 	const selectItem = (item: NearbyItem) => setSelectedItem(item);
@@ -60,7 +60,6 @@ const AppContextProvider = (props: any) => {
 
 	useEffect(() => {
 		updateItems(nearbyItems);
-		// TODO: Update map layer with updated items
 	}, [nearbyItems]);
 
 	useEffect(() => {
@@ -75,8 +74,6 @@ const AppContextProvider = (props: any) => {
 		}
 	}, [position]);
 
-	// TODO: useEffect for selectedItem to update map
-
 	const value = {
 		items,
 		selectedItem,
@@ -85,7 +82,7 @@ const AppContextProvider = (props: any) => {
 		// methods
 		updateItems,
 		updatePosition,
-		selectItem,
+		selectItem
 	};
 
 	return html`

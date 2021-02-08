@@ -8,8 +8,6 @@ const useMediaQuery = (query: string) => {
 	const [state, setState] = useState<boolean>(!!mqList.matches);
 
 	const handler = () => {
-		console.log('change');
-		console.log(query, mqList);
 		setState(mqList.matches);
 	};
 

@@ -12,6 +12,7 @@ const geocoder = new Locator({ url: geocodeURL });
  */
 export const findNearbyPlaces = async (latLon: LatLon, categories: string[]) => {
 	const { latitude, longitude } = latLon;
+	if (Math.abs(latitude) < 1 && Math.abs(longitude) < 1) return [];
 	const point = new Point({ longitude, latitude });
 
 	const results = await geocoder.addressToLocations({

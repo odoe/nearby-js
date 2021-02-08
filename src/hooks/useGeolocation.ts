@@ -15,10 +15,6 @@ const useGeolocation = () => {
 		// If geolocation not supported in the
 		// browser, set lat/lon to 0
 		// will be handled in application context
-		if (!('geolocation' in navigator)) {
-			setState({ latitude: 0, longitude: 0 });
-			return;
-		}
 		navigator.geolocation.getCurrentPosition(({ coords }) => {
 			const { latitude, longitude } = coords;
 			setState({ latitude, longitude });

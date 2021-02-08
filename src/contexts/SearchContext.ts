@@ -59,7 +59,6 @@ const SearchContextProvider = (props: any) => {
 
 	useEffect(() => {
 		updateItems(nearbyItems);
-		// TODO: Update map layer with updated items
 	}, [nearbyItems]);
 
 	useEffect(() => {
@@ -73,8 +72,6 @@ const SearchContextProvider = (props: any) => {
 			);
 		}
 	}, [position]);
-
-	// TODO: useEffect for selectedItem to update map
 
 	const value = {
 		items,

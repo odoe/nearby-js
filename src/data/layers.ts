@@ -52,28 +52,14 @@ const fields: __esri.FieldProperties[] = [
 const popupTemplate = {
 	title: '{name}',
 	content: ({ graphic }: __esri.Feature) => {
-		const { address, phone, icon, type, url } = graphic.attributes;
+		const { address } = graphic.attributes;
 		const ul = document.createElement('ul');
-		ul.classList.add('mdc-list', 'nearby-popup-content');
+		ul.classList.add('nearby-popup-content');
 		ul.innerHTML = `
-            <li class="mdc-list-item"><span class="mdc-list-item__graphic material-icons" aria-hidden="true">place</span>${address}</li>
-            <li class="mdc-list-item"><span class="mdc-list-item__graphic material-icons" aria-hidden="true">phone</span>
-                <a href="tel:+1 ${phone}">${phone}</a>
-            </li>
-            <li class="mdc-list-item"><span class="mdc-list-item__graphic material-icons" aria-hidden="true">public</span>
-                <a href="${url}">${url}</a>
-            </li>
-            <li class="mdc-list-item"><span class="mdc-list-item__graphic material-icons" aria-hidden="true">${icon}</span>${type}</li>
+            <li>${address}</li>
         `;
 		return ul;
-	},
-	actions: [
-		{
-			title: 'Directions to',
-			id: 'directions',
-			className: 'esri-icon-directions',
-		},
-	] as __esri.ActionButton[],
+	}
 };
 
 const renderer: any = {

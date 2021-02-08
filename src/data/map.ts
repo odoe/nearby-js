@@ -41,24 +41,19 @@ export const webmap = createArcGISMap();
 
 const app = {
 	map: webmap,
-	center: [-116.5, 33.8],
+	center: [-117.374718, 34.099529],
 	scale: 25000,
 	ui: {
 		components: ['attribution', 'zoom', 'compass'],
 	},
 	popup: {
-		collapseEnabled: false,
-		actions: [],
+		collapseEnabled: false
 	},
 };
 
 const locate = new Locate();
 
-const createMapView = () => {
-	return new MapView(app);
-};
-
-export let view = createMapView();
+export let view = new MapView(app);
 
 export const listenForPopupActions = (
 	updateCurrentRoute: (a: {
@@ -109,8 +104,6 @@ export const listenForPopupActions = (
  * @param container
  */
 export const initialize = async (container: HTMLDivElement) => {
-	view = createMapView();
-
 	locate.view = view;
 	view.ui.add({
 		component: locate,
@@ -124,19 +117,11 @@ export const initialize = async (container: HTMLDivElement) => {
 	view.container = container;
 
 	if (!viewPoint) {
-		if (locate.viewModel.state === 'disabled') {
-			const handle = when(locate, 'viewModel.state', async (state) => {
-				if (state === 'ready') {
-					handle.remove();
-					locate.locate();
-				}
-			});
-		} else if (locate.viewModel.state === 'ready') {
-			locate.locate();
-		}
+		await whenTrueOnce(locate, 'ready');
+		locate.locate();
 	}
 
-	return view;
+	return whenTrueOnce(view, 'ready');
 };
 
 /**
@@ -198,21 +183,17 @@ export const addLocations = async (items: NearbyItem[]) => {
  */
 
 export const queryNearbyItems: (item: NearbyItem) => Promise<__esri.Graphic[]> = async (item) => {
-	console.log(item);
 	if (!item || !(item.name && item.address)) return [];
 	if (!view.ready) {
 		await whenOnce(view, 'ready');
 	}
-	const layerView = (await view.whenLayerView(nearbyLayer)) as __esri.FeatureLayerView;
-	if (layerView.updating) {
-		await whenFalseOnce(layerView, 'updating');
-	}
 	const query = nearbyLayer.createQuery();
 	// Query by Object ID field
 	// query.objectIds = [ Number(item.OBJECTID) ];
-	query.where = `address='${item.address}' AND name='${item.name.replace("'", "''")}'`;
+	query.where = `address='${item.address}'`;
 	try {
-		const { features } = await layerView.queryFeatures(query);
+		const { features } = await nearbyLayer.queryFeatures(query);
+		view.goTo(features);
 		return features;
 	} catch (error) {
 		return [];
@@ -235,8 +216,19 @@ export const selectNearbyItems = async (features: __esri.Graphic[]) => {
 		location: features[0].geometry,
 		features,
 	});
-	return view.goTo(features);
+	await view.when();
+	return view.goTo(features[0].geometry);
 };
+
+export const zoomTo = async (item: unknown) => {
+	return new Promise((resolve) => {
+		setTimeout(async () => {
+			await view.when();
+			await view.goTo(item);
+			resolve(null);
+		}, 2000);
+	});
+}
 
 /**
  * Check if it is day or night
