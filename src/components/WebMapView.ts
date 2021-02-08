@@ -11,5 +11,5 @@ export const WebMapView = ({ small }: { small: boolean }) => {
 		setContainer(mapRef.current as HTMLDivElement);
 	}, [mapRef.current]);
 
-	return html` <div class="${small ? 'w-2/3' : 'w-full' } mt-12" ref=${mapRef}></div> `;
+	return html` <div class="${small ? 'w-2/3' : 'w-full'} mt-12" ref=${mapRef}></div> `;
 };

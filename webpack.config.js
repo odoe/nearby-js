@@ -6,6 +6,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { default: HTMLInlineCSSWebpackPlugin } = require('html-inline-css-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const path = require('path');
 
@@ -69,19 +70,7 @@ module.exports = function build(env, arg) {
           },
         }),
         new CssMinimizerPlugin()
-      ],
-      runtimeChunk: {
-        name: 'runtime',
-      },
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-        },
-      },
+      ]
     },
     plugins: [
       new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
@@ -98,9 +87,10 @@ module.exports = function build(env, arg) {
       new ArcGISPlugin(),
   
       new HtmlWebPackPlugin({
-        title: 'ArcGIS Template Application',
-        //   template: 'src/index.html',
-        //   filename: 'index.html'
+          title: 'ArcGIS Template Application',
+          template: 'src/index.ejs',
+          filename: 'index.html',
+          mode: arg.mode
       }),
       new HTMLInlineCSSWebpackPlugin(),
     ],
@@ -112,6 +102,16 @@ module.exports = function build(env, arg) {
       extensions: ['.ts', '.tsx', '.js', '.scss', '.css'],
     },
   };
+
+
+  if (arg.mode === 'production') {
+    config.plugins.push(
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true
+      })
+    );
+  }
 
   return config;
 };

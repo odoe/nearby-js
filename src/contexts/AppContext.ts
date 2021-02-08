@@ -82,7 +82,7 @@ const AppContextProvider = (props: any) => {
 		// methods
 		updateItems,
 		updatePosition,
-		selectItem
+		selectItem,
 	};
 
 	return html`

@@ -25,15 +25,13 @@ export const App = () => {
 		if (isSmallScreen && itemSelected) {
 			const props = { small: isSmallScreen };
 			return html`<${WebMapView} props=${props} />`;
-		}
-		else {
-			return html`
-			<div class=${listClasses(isSmallScreen)}>
-				<ul class="list-reset">
-					${nearbyItems}
-				</ul>
-			</div>
-			${showMap(isSmallScreen)}`;
+		} else {
+			return html` <div class=${listClasses(isSmallScreen)}>
+					<ul class="list-reset">
+						${nearbyItems}
+					</ul>
+				</div>
+				${showMap(isSmallScreen)}`;
 		}
 	};
 
@@ -51,9 +49,7 @@ export const App = () => {
 			<!-- App Container -->
 			<div class="h-full w-full flex flex-row">
 				<!-- List Container -->
-				<div class="h-full w-full flex flex-row">
-					${listOrMap(Boolean(selectedItem))}
-				</div>
+				<div class="h-full w-full flex flex-row">${listOrMap(Boolean(selectedItem))}</div>
 			</div>
 		</div>
 	`;

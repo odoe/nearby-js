@@ -60,12 +60,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{ts,tsx}": [
       "eslint --fix"
     ]
   },
   "devDependencies": {
-    "@arcgis/webpack-plugin": "^4.18.0-next.20201029",
+    "@arcgis/webpack-plugin": "^4.18.0",
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
@@ -99,10 +99,11 @@
     "typescript": "^4.0.5",
     "webpack": "^5.5.1",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "workbox-webpack-plugin": "^6.1.0"
   },
   "dependencies": {
-    "@arcgis/core": "^4.18.0-next.20201117",
+    "@arcgis/core": "^4.18.1",
     "@babel/polyfill": "^7.12.1",
     "htm": "^3.0.4",
     "preact": "^10.5.7",

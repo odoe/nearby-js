@@ -47,13 +47,13 @@ const app = {
 		components: ['attribution', 'zoom', 'compass'],
 	},
 	popup: {
-		collapseEnabled: false
+		collapseEnabled: false,
 	},
 };
 
 const locate = new Locate();
 
-export let view = new MapView(app);
+export const view = new MapView(app);
 
 export const listenForPopupActions = (
 	updateCurrentRoute: (a: {
@@ -228,7 +228,7 @@ export const zoomTo = async (item: unknown) => {
 			resolve(null);
 		}, 2000);
 	});
-}
+};
 
 /**
  * Check if it is day or night

@@ -59,7 +59,7 @@ const popupTemplate = {
             <li>${address}</li>
         `;
 		return ul;
-	}
+	},
 };
 
 const renderer: any = {
