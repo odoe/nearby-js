@@ -1,0 +1,111 @@
+{
+  "name": "nearby-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "npm run lint && webpack --mode=production",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      [
+        "babel-plugin-htm",
+        {
+          "tag": "$$html",
+          "import": "preact"
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "rules": {
+      "@typescript-eslint/no-empty-function": 0
+    },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 120,
+    "tabWidth": 4,
+    "useTabs": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "devDependencies": {
+    "@arcgis/webpack-plugin": "^4.18.0-next.20201029",
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-async-to-generator": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "babel-loader": "^8.2.1",
+    "babel-plugin-htm": "^3.0.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.1.5",
+    "dotenv-webpack": "^5.1.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "html-inline-css-webpack-plugin": "^1.9.1",
+    "html-loader": "^1.3.2",
+    "html-webpack-plugin": "^4.5.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "mini-css-extract-plugin": "^1.3.1",
+    "postcss": "^7.0.35",
+    "postcss-loader": "^4.0.4",
+    "prettier": "^2.1.2",
+    "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "^5.0.3",
+    "ts-loader": "^8.0.11",
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.5",
+    "webpack": "^5.5.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@arcgis/core": "^4.18.0-next.20201117",
+    "@babel/polyfill": "^7.12.1",
+    "htm": "^3.0.4",
+    "preact": "^10.5.7",
+    "tailwindcss": "^1.9.6"
+  }
+}
